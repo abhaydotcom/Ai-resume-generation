@@ -1,7 +1,8 @@
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import puppeteer from "puppeteer"
+import puppeteer from "puppeteer-core";
+import Chromium from "@sparticuz/chromium";
 const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_GEMINI_KEY });
 
 // const interviewReportSchema = z.object({
@@ -167,10 +168,11 @@ export async function generateInterviewReport({  resume, selfDescription,jobDesc
 async function generatePdfFromHtml(htmlContent) {
     try {
       const browser = await puppeteer.launch({
-       args: chromium.args,
-            defaultViewport: chromium.defaultViewport,
-            executablePath: await chromium.executablePath(),
-            headless: chromium.headless,
+     args: Chromium.args,
+    defaultViewport: Chromium.defaultViewport,
+    executablePath:
+      (await Chromium.executablePath()) || "/usr/bin/chromium",
+    headless: true,
     })
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle0" })
@@ -189,6 +191,7 @@ async function generatePdfFromHtml(htmlContent) {
     return pdfBuffer
     } catch (error) {
       console.error(error)
+      throw error
     }
 }
 
