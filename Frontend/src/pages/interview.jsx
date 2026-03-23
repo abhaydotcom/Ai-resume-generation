@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useInterview } from '../hooks/useInterview.js'
 import { useNavigate, useParams } from 'react-router'
 import Navbar from '../components/Navbar.jsx'
-import { Styles } from '../../../backend/src/config/style.jsx'
 import { QuestionAccordion } from '../components/QuestionAccordion.jsx'
 import { Badge } from '../components/Badge.jsx'
 import { useAuth } from '../hooks/useAuth.js'
+import { Styles } from '../components/style.jsx'
 
 
 
