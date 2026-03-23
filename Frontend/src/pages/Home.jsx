@@ -103,7 +103,7 @@ const Home = () => {
             <div className='bg-slate-900/40 border border-white/5 backdrop-blur-md rounded-3xl p-8 transition-all hover:border-white/10'>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Job Description Side */}
+             
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-white font-semibold">
                     <FileText size={18} className="text-violet-400" />
@@ -117,8 +117,8 @@ const Home = () => {
                   />
                   <div className="flex justify-between items-center px-1">
                     <span className="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Character Count</span>
-                    <span className={`text-xs ${jobDescription.length > 4500 ? 'text-orange-400' : 'text-slate-400'}`}>
-                      {jobDescription.length}/5000
+                    <span className={`text-xs ${jobDescription?.length > 4500 ? 'text-orange-400' : 'text-slate-400'}`}>
+                      {jobDescription?.length}/5000
                     </span>
                   </div>
                 </div>
@@ -189,7 +189,7 @@ const Home = () => {
                 Recent History
               </h2>
               <span className="text-xs font-bold text-slate-500 bg-white/5 px-2 py-1 rounded-md">
-                {reports.length} Reports
+                {reports?.length} Reports
               </span>
             </div>
 
@@ -197,8 +197,8 @@ const Home = () => {
               {reports.length > 0 ? (
                 reports.map(report => (
                   <div
-                    key={report._id}
-                    onClick={() => navigate(`/interview/${report._id}`)}
+                    key={report?._id}
+                    onClick={() => navigate(`/interview/${report?._id}`)}
                     className='group p-4 bg-white/[0.02] border border-white/5 rounded-2xl cursor-pointer hover:bg-violet-500/5 hover:border-violet-500/30 transition-all'
                   >
                     <div className="flex justify-between items-start mb-3">
@@ -207,15 +207,15 @@ const Home = () => {
                       </div>
                       <div className="text-right">
                         <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">Match Score</span>
-                        <p className="text-lg font-bold text-white">{report.matchScore}%</p>
+                        <p className="text-lg font-bold text-white">{report?.matchScore}%</p>
                       </div>
                     </div>
                     <h3 className='text-sm font-semibold text-slate-200 line-clamp-1 mb-1'>
-                      {report.title || 'Analysis Report'}
+                      {report?.title || 'Analysis Report'}
                     </h3>
                     <div className="flex items-center justify-between mt-4">
                       <span className="text-xs text-slate-500">
-                        {new Date(report.createdAt).toLocaleDateString()}
+                        {new Date(report?.createdAt).toLocaleDateString()}
                       </span>
                       <ChevronRight size={16} className="text-slate-600 group-hover:text-violet-400 transition-colors" />
                     </div>

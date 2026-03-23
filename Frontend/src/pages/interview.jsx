@@ -59,7 +59,7 @@ const Interview = () => {
                         <div className="relative z-10">
                             <Badge variant="violet">{report.role || 'Career Analysis'}</Badge>
                             <h1 className="text-3xl md:text-4xl font-extrabold mt-3 tracking-tighter leading-tight max-w-md">
-                                {report.title || "Your Preparation Strategy"}
+                                {report?.title || "Your Preparation Strategy"}
                             </h1>
                         </div>
                         <div className="absolute top-[-20%] right-[-10%] w-64 h-64 bg-violet-600/20 blur-[100px] rounded-full" />
@@ -68,14 +68,14 @@ const Interview = () => {
                     <div className="glass-card p-6 rounded-3xl flex items-center justify-between border-violet-500/20">
                         <div>
                             <p className="text-zinc-500 text-[12px] font-bold uppercase mb-1">Match Score</p>
-                            <h3 className="text-5xl font-black text-white">{report.matchScore}%</h3>
+                            <h3 className="text-5xl font-black text-white">{report?.matchScore}%</h3>
                         </div>
                         <div className="w-16 h-16 rounded-full border-4 border-violet-500/30 border-t-violet-500 animate-pulse" />
                     </div>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-8">
-                    {/* ── Left Navigation (Sticky) ── */}
+                 
                     <aside className="lg:w-64 shrink-0">
                         <div className="sticky top-28 flex flex-col gap-2">
                             <p className="text-[10px] font-black text-zinc-600 uppercase tracking-widest ml-4 mb-2">Sections</p>
@@ -95,7 +95,7 @@ const Interview = () => {
                         <div className="flex items-center justify-between mb-6 px-2">
                             <h2 className="text-xl font-bold capitalize">{activeNav} Phase</h2>
                             <span className="text-zinc-500 text-[13px] font-mono">
-                                {activeNav === 'roadmap' ? `${report.preparationPlan.length} Steps` : `${(activeNav === 'technical' ? report.technicalQuestions : report.behavioralQuestions).length} Queries`}
+                                {activeNav === 'roadmap' ? `${report?.preparationPlan.length} Steps` : `${(activeNav === 'technical' ? report.technicalQuestions : report.behavioralQuestions).length} Queries`}
                             </span>
                         </div>
 
@@ -107,9 +107,9 @@ const Interview = () => {
                             </div>
                         ) : (
                             <div className="space-y-6">
-                                {report.preparationPlan.map((step, i) => (
+                                {report?.preparationPlan.map((step, i) => (
                                     <div key={i} className="flex gap-6 relative">
-                                        {i !== report.preparationPlan.length - 1 && <div className="absolute left-[19px] top-10 bottom-0 w-px bg-zinc-800" />}
+                                        {i !== report?.preparationPlan.length - 1 && <div className="absolute left-[19px] top-10 bottom-0 w-px bg-zinc-800" />}
                                         <div className="w-10 h-10 rounded-full bg-zinc-900 border border-violet-500/40 flex items-center justify-center shrink-0 z-10 text-[12px] font-bold">
                                             {i + 1}
                                         </div>
