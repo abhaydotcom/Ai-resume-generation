@@ -165,14 +165,14 @@ export async function generateInterviewReport({  resume, selfDescription,jobDesc
   }
 }
 
+const executablePath = await Chromium.executablePath();
 async function generatePdfFromHtml(htmlContent) {
     try {
       const browser = await puppeteer.launch({
      args: Chromium.args,
-    defaultViewport: Chromium.defaultViewport,
-    executablePath:
-      (await Chromium.executablePath()) || "/usr/bin/chromium",
-    headless: true,
+  defaultViewport: Chromium.defaultViewport,
+  executablePath,
+  headless: true,
     })
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle0" })
