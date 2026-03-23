@@ -23,9 +23,9 @@ export const InterviewProvider = ({ children }) => {
 
             if (!response) throw new Error("No response from AI");
 
-            setReport(response.interviewReport);
+            setReport(response?.interviewReport);
 
-            return response.interviewReport;
+            return response?.interviewReport;
 
         } catch (error) {
             console.error("Generate Report Error:", error);
@@ -39,13 +39,13 @@ export const InterviewProvider = ({ children }) => {
         let response = null
         try {
             response = await getInterviewReportById(interviewId)
-            setReport(response.interviewReport)
+            setReport(response?.interviewReport)
         } catch (error) {
             console.log(error)
         } finally {
             setLoading(false)
         }
-        return response.interviewReport
+        return response?.interviewReport
     }
 
      const getReports = async () => {
@@ -54,14 +54,14 @@ export const InterviewProvider = ({ children }) => {
         try {
             response = await getAllInterviewReports()
 
-            setReports(response.interviewReports)
+            setReports(response?.interviewReports)
         } catch (error) {
             console.log(error)
         } finally {
             setLoading(false)
         }
 
-        return response.interviewReports
+        return response?.interviewReports
     }
 
      const getResumePdf = async (interviewReportId) => {
