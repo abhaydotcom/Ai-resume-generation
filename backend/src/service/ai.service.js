@@ -165,14 +165,20 @@ export async function generateInterviewReport({  resume, selfDescription,jobDesc
 }
 
 async function generatePdfFromHtml(htmlContent) {
-    const browser = await puppeteer.launch()
+    try {
+      const browser = await puppeteer.launch({
+       args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath(),
+            headless: chromium.headless,
+    })
     const page = await browser.newPage();
     await page.setContent(htmlContent, { waitUntil: "networkidle0" })
 
     const pdfBuffer = await page.pdf({
         format: "A4", margin: {
-            top: "20mm",
-            bottom: "20mm",
+            top: "15mm",
+            bottom: "15mm",
             left: "15mm",
             right: "15mm"
         }
@@ -181,6 +187,9 @@ async function generatePdfFromHtml(htmlContent) {
     await browser.close()
 
     return pdfBuffer
+    } catch (error) {
+      console.error(error)
+    }
 }
 
 
