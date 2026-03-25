@@ -61,71 +61,75 @@ export async function signUp(req,res){
    }
 }   
 
-export async function login(req,res){
-    try {
-        const {email,password}=req.body
+    export async function login(req,res){
+        try {
+            const {email,password}=req.body
 
-        if(!email || !password){
-            return res.status(400).json({message:"All fields are required",  success:false,})
-        }
-        const existingEmail=await User.findOne({email})
-        if(!existingEmail){
-            return res.status(404).json({message:"Incorrect Email",  success:false,})
-        }
-        const isPasswordCorrect=await bcrypt.compare(password,existingEmail.password)
-        if(!isPasswordCorrect){
-            return res.status(400).json({message:"Incorrect Password",  success:false,})
-        }
-        const token= jwt.sign(  
-            {id:existingEmail._id,email:existingEmail.email},
-            process.env.JWT_SECRET,
-            {expiresIn:"1day"}
-        )
+            if(!email || !password){
+                return res.status(400).json({message:"All fields are required",  success:false,})
+            }
+            const existingEmail=await User.findOne({email})
+            if(!existingEmail){
+                return res.status(404).json({message:"Incorrect Email",  success:false,})
+            }
+            const isPasswordCorrect=await bcrypt.compare(password,existingEmail.password)
+            if(!isPasswordCorrect){
+                return res.status(400).json({message:"Incorrect Password",  success:false,})
+            }
+            const token= jwt.sign(  
+                {id:existingEmail._id,email:existingEmail.email},
+                process.env.JWT_SECRET,
+                {expiresIn:"1day"}
+            )
 
-        res.cookie("token",token,{
-             httpOnly: true,
+            res.cookie("token",token,{
+                httpOnly: true,
+                secure: true,
+                sameSite: "None",
+            })
+            res.status(200).json({
+                message:"Login successful",
+                success:true,
+                user:{
+                    id:existingEmail._id,
+                    name:existingEmail.name,
+                    email:existingEmail.email,
+                }
+            })
+
+        } catch (error) {
+            console.log("Error in login",error)
+        }
+    }
+
+    export function logout(req,res){
+        try {
+            res.clearCookie("token", {
+            httpOnly: true,
             secure: true,
             sameSite: "None",
-        })
+        });
+            res.status(200).json({message:"Logout successful",  success:true,})
+        } catch (error) {
+            console.log("Error in logout",error)
+            return res.status(500).json({
+        message: "Internal server error"
+        });
+        }
+    }
+    
+    export async function getMeController(req, res) {
+        const user = await User.findById(req.user.id)
         res.status(200).json({
-            message:"Login successful",
-              success:true,
-            user:{
-                id:existingEmail._id,
-                name:existingEmail.name,
-                email:existingEmail.email,
+            message: "User details fetched successfully",
+            success:true,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+
             }
         })
 
-    } catch (error) {
-        console.log("Error in login",error)
     }
-}
-
-export function logout(req,res){
-    try {
-        res.clearCookie("token")
-        res.status(200).json({message:"Logout successful",  success:true,})
-    } catch (error) {
-        console.log("Error in logout",error)
-         return res.status(500).json({
-      message: "Internal server error"
-    });
-    }
-}
- 
-export async function getMeController(req, res) {
-    const user = await User.findById(req.user.id)
-    res.status(200).json({
-        message: "User details fetched successfully",
-        success:true,
-        user: {
-            id: user._id,
-            name: user.name,
-            email: user.email,
-
-        }
-    })
-
-}
 
